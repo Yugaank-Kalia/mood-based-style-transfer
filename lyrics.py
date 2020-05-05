@@ -35,7 +35,7 @@ print(processed_songs[:20])
 base_url = "https://www.azlyrics.com/lyrics/{}/{}.html"
 
 # file in which the lyrics would be saved
-lyrics_file = "lyrics_scraped.txt"
+lyrics_file = "lyrics_scraped.json"
 
 lyrics_not_found_for = []
 
@@ -51,8 +51,11 @@ with open(lyrics_file, "w") as file:
             html_pointer = soup.find('div', attrs={'class':'ringtone'})
             song_name = html_pointer.find_next('b').contents[0].strip()
             lyrics = html_pointer.find_next('div').text.strip()
-            file.write(lyrics)
+            lyric_dict = {"lyrics" : lyrics}
+            lyric_dict = json.dumps(lyric_dict)
             
+            file.write(lyric_dict)
+
             print("Lyrics successfully written to file for : " + song_name)
             
         except:
